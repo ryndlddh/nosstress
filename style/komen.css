@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* CSS untuk konten utama */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.photo-details {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.photo-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.comments-section h3 {
+    margin-top: 0;
+}
+
+.comment {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* CSS untuk form komentar */
+form {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* CSS untuk tombol Like */
+.like-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.like-button:hover {
+    background-color: #2980b9;
+}
+
+.like-button.unlike {
+    background-color: #e74c3c;
+}
+
+.like-button.unlike:hover {
+    background-color: #c0392b;
+}
+
+/* Responsif CSS */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .photo-details img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        max-width: 100%;
+        margin: 10px auto;
+    }
+}
