@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// Periksa apakah pengguna adalah admin
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
+    // Jika bukan admin, arahkan ke index.php
+    header("Location: index.php");
+    exit();
+}
+?>
+<?php
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "album");
 
@@ -10,8 +20,7 @@ $result_albums = mysqli_query($conn, $sql_albums);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Daftar Album</title>
-    <style>
+<style>
         body {
     font-family: Arial, sans-serif;
     background-color: #e6f2ff; /* Warna latar belakang biru langit */
@@ -60,33 +69,17 @@ h1 {
     <h1>Daftar Album</h1>
 
     <?php
-// Koneksi ke database
-$conn = mysqli_connect("localhost", "root", "", "album");
-
-// Query untuk mendapatkan daftar album
-$sql_albums = "SELECT * FROM albums";
+    // Query untuk mendapatkan daftar album
+$sql_albums = "SELECT albums.*, photos.image_path, users.name
+FROM albums
+INNER JOIN photos ON albums.album_id = photos.album_id
+INNER JOIN users ON albums.user_id = users.user_id";
 $result_albums = mysqli_query($conn, $sql_albums);
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Daftar Album</title>
-    <style>
-        /* CSS styles */
-    </style>
-</head>
-<body>
-    <h1>Daftar Album</h1>
-
-    <?php
-    // Menampilkan daftar album
     if (mysqli_num_rows($result_albums) > 0) {
         while ($row = mysqli_fetch_assoc($result_albums)) {
             echo "<div class='album'>";
             echo "<h2>" . $row['title'] . "</h2>";
-            echo "<p>Pemilik Album: " . $row['user_id'] . "</p>";
-
+            echo "<div class='user-id'>" . $row['name'] . "</div>";
             // Query untuk mendapatkan foto-foto dalam album
             $album_id = $row['album_id'];
             $sql_photos = "SELECT * FROM photos WHERE album_id = '$album_id'";
@@ -95,9 +88,10 @@ $result_albums = mysqli_query($conn, $sql_albums);
             // Menampilkan foto-foto dalam album
             if (mysqli_num_rows($result_photos) > 0) {
                 echo "<div class='photo-list'>";
-                while ($photo_row = mysqli_fetch_assoc($result_photos)) {
+                while ($photo = mysqli_fetch_assoc($result_photos)) {
                     echo "<div class='photo-item'>";
-                    echo "<img src='uploads/" . $photo_row['image_path'] . "' alt='Photo'>";
+                    
+                    echo "<div class='img'><img src='" . $photo['image_path'] . "' alt='Photo'></div>";
                     echo "</div>";
                 }
                 echo "</div>";
@@ -114,8 +108,3 @@ $result_albums = mysqli_query($conn, $sql_albums);
 
 </body>
 </html>
-
-<?php
-// Tutup koneksi ke database
-mysqli_close($conn);
-?>

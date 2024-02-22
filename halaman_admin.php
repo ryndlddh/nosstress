@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Periksa apakah pengguna adalah admin
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
+    // Jika bukan admin, arahkan ke index.php
+    header("Location: index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,6 +126,13 @@
     </div>
     <div class="container">
         <h2>User List</h2>
+        <?php
+// Cek apakah ada pesan dari halaman_hapus_user.php
+if (isset($_GET['pesan'])) {
+    $pesan = urldecode($_GET['pesan']);
+    echo "<p style='color: green;'>" . $pesan . "</p>";
+}
+?>
         <table class="user-table">
             <thead>
                 <tr>
@@ -145,24 +162,30 @@
                 $result = mysqli_query($conn, $sql);
 
                 // Tampilkan data dari tabel users dalam bentuk baris tabel HTML
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . $row["user_id"] . "</td>";
-                        echo "<td>" . $row["name"] . "</td>";
-                        echo "<td>" . $row["username"] . "</td>";
-                        echo "<td>" . $row["password"] . "</td>";
-                        echo "<td>" . $row["email"] . "</td>";
-                        echo "<td>" . $row["access_level"] . "</td>";
-                        echo "<td>" . $row["create_at"] . "</td>";
-                        echo "<td><a class='edit-button' href='halaman_edit_user.php?user_id=" . $row['user_id'] . "'>Edit</a></td>";
-                        echo "<td><a class='delete-button' href='halaman_hapus_user.php?user_id=" . $row['user_id'] . "'>Delete</a></td>";
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row["user_id"] . "</td>";
+        echo "<td>" . $row["name"] . "</td>";
+        echo "<td>" . $row["username"] . "</td>";
+        echo "<td>" . $row["password"] . "</td>";
+        echo "<td>" . $row["email"] . "</td>";
+        echo "<td>" . $row["access_level"] . "</td>";
+        echo "<td>" . $row["create_at"] . "</td>";
 
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='9'>No users found</td></tr>";
-                }
+        // Cek level akses pengguna sebelum menampilkan tombol Edit dan Delete
+        if ($row["access_level"] !== "admin") {
+            echo "<td><a class='edit-button' href='halaman_edit_user.php?user_id=" . $row['user_id'] . "'>Edit</a></td>";
+            echo "<td><a class='delete-button' href='halaman_hapus_user.php?user_id=" . $row['user_id'] . "'>Delete</a></td>";
+        } else {
+            echo "<td></td><td></td>"; // Tampilkan kolom kosong untuk pengguna admin
+        }
+
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='9'>No users found</td></tr>";
+}
 
                 // Tutup koneksi ke database
                 mysqli_close($conn);

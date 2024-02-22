@@ -72,9 +72,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Photo</title>
+    <link rel="stylesheet" href="../style/komen.css">
+    <link rel="stylesheet" href="../style/slfa.css">
 </head>
 <body>
-    <h2>Edit Foto</h2>
+<div class="navbar">
+        <a href="../dasboard.php">Home</a>
+        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
+            <a href="halaman_admin.php">Admin</a>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'user') : ?>
+            <a href="#user">User</a>
+        <?php endif; ?>
+        <a href="upload.php">upload</a>
+        <div style="float: right;">
+            <a href="logout.php">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+    <h2 style="text-align: center;">Edit Foto</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <input type="hidden" name="photo_id" value="<?php echo $photo_id; ?>">
         <label for="title">Judul:</label>
@@ -83,5 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea id="description" name="description" required><?php echo $description; ?></textarea>
         <button type="submit">Simpan perubahan</button>
     </form>
+    </div>
 </body>
 </html>
