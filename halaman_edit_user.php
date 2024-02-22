@@ -173,22 +173,6 @@ mysqli_close($conn);
 
             return true;
         }
-
-        function checkUniqueUsername(username) {
-            var isUnique = false;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "check_username.php", false); // Menggunakan sinkron untuk memastikan respon diterima sebelum melanjutkan
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    if (xhr.responseText === "unique") {
-                        isUnique = true;
-                    }
-                }
-            };
-            xhr.send("username=" + encodeURIComponent(username));
-            return isUnique;
-        }
     </script>
 </body>
 </html>
