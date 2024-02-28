@@ -44,33 +44,10 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pra</title>
-    <link rel="stylesheet" href="style/slfa.css">
+    <link rel="stylesheet" href="style/slfa.css?v=<?php echo time()?>">
 </head>
-<script>
-function confirmDelete(photoId) {
-    var confirmation = confirm("Are you sure you want to delete this photo?");
-    if (confirmation) {
-        window.location.href = "dalam/delete.php?photo_id=" + photoId;
-    }
-}
-</script>
 <body>
-    <div class="navbar">
-        <a href="dasboard.php">Home</a>
-        <?php if (isset($_SESSION['name']) && $_SESSION['name'] !== '') : ?>
-            <a href="create_album.php"><?php echo $_SESSION['name']; ?></a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.php">admin</a>
-            <a href="read_album.php" target="_blank" rel="noopener noreferrer">album</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="dalam/logout.php">Logout</a>
-        </div>
-    </div>
-
+<?php include 'navbar.php'; ?>
     
 <?php
 // Koneksi ke database
@@ -117,13 +94,15 @@ if ($result) {
             if (isset($_SESSION['access_level']) && $_SESSION['access_level'] == 'admin') {
                 
                 echo "<div><button><a href='dalam/edit.php?photo_id=" . $row['photo_id'] . "'>Edit</a></button></div>";
-                echo "<div ><button class='detele'><a href='dalam/hapus_photo.php?photo_id=" . $row['photo_id'] . "'>Hapus</a></button></div>";
+                echo "<div ><button class='detele' onclick='sshowConfirmation(this, " . $row['photo_id'] . ")'>Hapus</button></div>";
+
                 
                 
             } else if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']) {
                 
                 echo "<div><button><a href='dalam/edit.php?photo_id=" . $row['photo_id'] . "'>Edit</a></button></div>";
-                echo "<div ><button class='detele'><a href='dalam/hapus_photo.php?photo_id=" . $row['photo_id'] . "'>Hapus</a></button></div>";
+                echo "<div ><button class='detele' onclick='sshowConfirmation(this, " . $row['photo_id'] . ")'>Hapus</button></div>";
+
                 
             }
             
@@ -147,3 +126,32 @@ mysqli_close($conn);
 </body>
 </html>
 
+<script>
+function showConfirmation() {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah logout atau tindakan lainnya
+        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+</script>
+<script>
+    function sshowConfirmation(button, photoId) {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus foto ini?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah hapus foto atau tindakan lainnya
+        window.location.href = "dalam/hapus_photo.php?photo_id=" + photoId; // Ganti dengan URL untuk menghapus foto
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+
+</script>

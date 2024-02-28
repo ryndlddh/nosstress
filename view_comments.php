@@ -95,21 +95,7 @@ $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
     <link rel="stylesheet" href="style/komen.css">
 </head>
 <body>
-    <div class="navbar">
-        <a href="dasboard.php">Home</a>
-        <?php if (isset($_SESSION['name']) && $_SESSION['name'] !== '') : ?>
-            <a href="create_album.php"><?php echo $_SESSION['name']; ?></a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.phpadmin">admin</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="dalam/logout.php">Logout</a>
-        </div>
-    </div>
-
+    <?php include'navbar.php';?>
 
     <div class="container">
         <!-- Photo Details Section -->
@@ -140,11 +126,13 @@ $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
                     if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') {
                         // Admin can edit and delete any comment
                         echo "<div><button><a href='edit_comment.php?comment_id=" . $row['comment_id'] . "'>Edit</a></button></div>";
-                        echo "<div><button><a href='delete_comment.php?comment_id=" . $row['comment_id'] . "'>Delete</a></button></div>";
+                        echo "<div><button><a href='delete_comment.php?comment_id=" . $row['comment_id'] . "&photo_id=" . $_GET["photo_id"]."'>Delete</a></button></div>";
+
                     } elseif (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']) {
                         // User can edit and delete their own comments
                         echo "<div><button><a href='edit_comment.php?comment_id=" . $row['comment_id'] . "'>Edit</a></button></div>";
-                        echo "<div><button><a href='delete_comment.php?comment_id=" . $row['comment_id'] . "'>Delete</a></button></div>";
+                        echo "<div><button><a href='delete_comment.php?comment_id=" . $row['comment_id'] . "&photo_id=" . $_GET["photo_id"]."'>Delete</a></button></div>";
+
                     }
                     echo "</div>";
                 }
@@ -154,10 +142,12 @@ $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
             ?>
 
             <!-- Form to add new comment -->
-            <form action="view_comments.php?photo_id=<?php echo $photo_id; ?>" method="POST">
-                <textarea name="comment_text" rows="3" placeholder="Add your comment here..." required></textarea>
-                <button type="submit" name="submit_comment">Add Comment</button>
-            </form>
+            <form action="proses_commants.php" method="POST">
+        <input type="hidden" name="photo_id" value="<?php echo $photo_id; ?>">
+        <textarea name="comment_text" rows="3" placeholder="Add your comment here..." required></textarea>
+        <button type="submit" name="submit_comment">Add Comment</button>
+        </form>
+
             <?php
             // Display error message if comment insertion fails
             if (isset($comment_error)) {
@@ -173,3 +163,17 @@ $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
 // Tutup koneksi ke database
 mysqli_close($conn);
 ?>
+<script>
+function showConfirmation() {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah logout atau tindakan lainnya
+        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+</script>

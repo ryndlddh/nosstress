@@ -76,20 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../style/slfa.css">
 </head>
 <body>
-<div class="navbar">
-        <a href="../dasboard.php">Home</a>
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.php">Admin</a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'user') : ?>
-            <a href="#user">User</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
+    <?php include'../navbar.php';?>
     
     <div class="container">
     <h2 style="text-align: center;">Edit Foto</h2>

@@ -19,7 +19,8 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UKK</title>
-    <link rel="stylesheet" href="style/slfa.css">
+    
+    <link rel="stylesheet" href="style/slfa.css?v=<?php echo time()?>">
 </head>
 <script>
 function confirmDelete(photoId) {

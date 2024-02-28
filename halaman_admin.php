@@ -110,20 +110,7 @@ if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') 
 </style>
 </head>
 <body>
-<div class="navbar">
-        <a href="dasboard.php">Home</a>
-        <?php if (isset($_SESSION['name']) && $_SESSION['name'] !== '') : ?>
-            <a href="create_album.php"><?php echo $_SESSION['name']; ?></a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.php">admin</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="dalam/logout.php">Logout</a>
-        </div>
-    </div>
+<?php include 'navbar.php'; ?>
     <div class="container">
         <h2>User List</h2>
         <?php
@@ -137,12 +124,12 @@ if (isset($_GET['pesan'])) {
             <thead>
                 <tr>
                     <th>User ID</th>
-                    <th>Name</th>
+                    <th>Nama</th>
                     <th>Username</th>
                     <th>Password</th>
                     <th>Email</th>
                     <th>Access Level</th>
-                    <th>Created At</th>
+                    <th>Dibuat pada</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -195,3 +182,17 @@ if (mysqli_num_rows($result) > 0) {
     </div>
 </body>
 </html>
+<script>
+function showConfirmation() {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah logout atau tindakan lainnya
+        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+</script>

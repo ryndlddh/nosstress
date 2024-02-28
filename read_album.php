@@ -66,6 +66,7 @@ h1 {
     </style>
 </head>
 <body>
+<?php include 'navbar.php'; ?>
     <h1>Daftar Album</h1>
 
     <?php
@@ -108,3 +109,17 @@ $result_albums = mysqli_query($conn, $sql_albums);
 
 </body>
 </html>
+<script>
+function showConfirmation() {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah logout atau tindakan lainnya
+        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+</script>

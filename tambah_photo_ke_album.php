@@ -64,20 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <body>
-    <div class="navbar">
-        <a href="dasboard.php">Home</a>
-        <?php if (isset($_SESSION['name']) && $_SESSION['name'] !== '') : ?>
-            <a href="create_album.php"><?php echo $_SESSION['name']; ?></a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.php">admin</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="dalam/logout.php">Logout</a>
-        </div>
-    </div>
+    <?php include'navbar.php'; ?>
 
     <div class="container">
     <h2>Tambahkan Foto ke Album</h2>
@@ -106,3 +93,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Tutup koneksi ke database
 mysqli_close($conn);
 ?>
+<script>
+function showConfirmation() {
+    // Tampilkan notifikasi konfirmasi
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    
+    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
+    if (confirmation) {
+        // Lakukan perintah logout atau tindakan lainnya
+        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
+    } else {
+        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
+    }
+}
+</script>

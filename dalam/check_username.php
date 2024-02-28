@@ -17,7 +17,7 @@ mysqli_stmt_bind_param($stmt, "s", $username);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) > 0) {
-    // Username sudah digunakan, redirect ke daftar.php dengan pesan
+    // Username sudah digunakan, redirect ke daftar.php dengan pesa
     header("Location: daftar.php?error=Username sudah digunakan, silakan ganti username.");
     exit();
 } else {

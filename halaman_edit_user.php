@@ -116,20 +116,7 @@ mysqli_close($conn);
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="dasboard.php">Home</a>
-        <?php if (isset($_SESSION['name']) && $_SESSION['name'] !== '') : ?>
-            <a href="create_album.php"><?php echo $_SESSION['name']; ?></a>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-            <a href="halaman_admin.php">admin</a>
-        <?php endif; ?>
-        <a href="upload.php">upload</a>
-        <div style="float: right;">
-            <a href="dalam/logout.php">Logout</a>
-        </div>
-    </div>
+<?php include 'navbar.php'; ?>
     <div class="container">
         <h2>Edit User</h2>
         <form method="post" onsubmit="return validateForm()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?user_id=$user_id"; ?>">
