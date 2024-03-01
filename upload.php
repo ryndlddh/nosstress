@@ -130,23 +130,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Data</title>
-    <link rel="stylesheet" href="style/slfa.css">
-    <link rel="stylesheet" href="style/komen.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
-<body>
+<body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
-    <div class="container">
-    <h2>Form Unggah Foto</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
-        <label for="title">Judul:</label><br>
-        <input type="text" id="title" name="title"><br>
-        <label for="description">Deskripsi:</label><br>
-        <textarea id="description" name="description"></textarea><br>
-        <label for="image_path">Pilih foto:</label><br>
-        <input type="file" id="image_path" name="image_path"><br><br>
-        <button type="submit" value="Submit">Kirim</button>
-    </form>
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold text-center mb-4">Form Unggah Foto</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data" class="space-y-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Judul:</label>
+            <input type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+
+            <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi:</label>
+            <textarea id="description" name="description" class="mt-1 block w-full p-2 border border-gray-300 rounded"></textarea>
+
+            <label for="image_path" class="block text-sm font-medium text-gray-700">Pilih foto:</label>
+            <input type="file" id="image_path" name="image_path" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Kirim</button>
+        </form>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
 <script>

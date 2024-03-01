@@ -14,124 +14,33 @@ if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Page - User List</title>
-<link rel="stylesheet" href="style/slfa.css">
-<style>
-    /* CSS untuk tampilan umum */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
-
-    /* CSS untuk konten utama */
-    .container {
-        max-width: 1200px;
-        margin: 20px auto;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-    }
-
-    .user-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    .user-table th,
-    .user-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-
-    .user-table th {
-        background-color: #3498db;
-        color: white;
-    }
-
-    .user-table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-/* CSS untuk tombol edit */
-.edit-button {
-    background-color: #4CAF50; /* Warna hijau */
-    color: white;
-    border: none;
-    padding: 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    width: calc(100% - 10px); /* Ukuran tombol menyesuaikan lebar kolom */
-}
-
-.edit-button:hover {
-    background-color: #45a049; /* Warna hijau yang sedikit lebih gelap saat dihover */
-}
-
-/* CSS untuk tombol hapus */
-.delete-button {
-    background-color: #f44336; /* Warna merah */
-    color: white;
-    border: none;
-    padding: 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    width: calc(100% - 10px); /* Ukuran tombol menyesuaikan lebar kolom */
-}
-
-.delete-button:hover {
-    background-color: #ff3d00; /* Warna merah yang sedikit lebih gelap saat dihover */
-}
-
-
-    /* CSS Responsif */
-    @media only screen and (max-width: 600px) {
-        .container {
-            width: 100%;
-            padding: 10px;
-        }
-
-        .user-table {
-            font-size: 12px;
-        }
-    }
-</style>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
-    <div class="container">
-        <h2>User List</h2>
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold text-center mb-4">User List</h2>
         <?php
-// Cek apakah ada pesan dari halaman_hapus_user.php
-if (isset($_GET['pesan'])) {
-    $pesan = urldecode($_GET['pesan']);
-    echo "<p style='color: green;'>" . $pesan . "</p>";
-}
-?>
-        <table class="user-table">
+        // Cek apakah ada pesan dari halaman_hapus_user.php
+        if (isset($_GET['pesan'])) {
+            $pesan = urldecode($_GET['pesan']);
+            echo "<p class='text-green-500'>" . $pesan . "</p>";
+        }
+        ?>
+        <table class="w-full text-left border-collapse">
             <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Email</th>
-                    <th>Access Level</th>
-                    <th>Dibuat pada</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th class="border border-gray-300 px-4 py-2">User ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Nama</th>
+                    <th class="border border-gray-300 px-4 py-2">Username</th>
+                    <th class="border border-gray-300 px-4 py-2">Password</th>
+                    <th class="border border-gray-300 px-4 py-2">Email</th>
+                    <th class="border border-gray-300 px-4 py-2">Access Level</th>
+                    <th class="border border-gray-300 px-4 py-2">Dibuat pada</th>
+                    <th class="border border-gray-300 px-4 py-2">Edit</th>
+                    <th class="border border-gray-300 px-4 py-2">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -149,30 +58,33 @@ if (isset($_GET['pesan'])) {
                 $result = mysqli_query($conn, $sql);
 
                 // Tampilkan data dari tabel users dalam bentuk baris tabel HTML
-if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>" . $row["user_id"] . "</td>";
-        echo "<td>" . $row["name"] . "</td>";
-        echo "<td>" . $row["username"] . "</td>";
-        echo "<td>" . $row["password"] . "</td>";
-        echo "<td>" . $row["email"] . "</td>";
-        echo "<td>" . $row["access_level"] . "</td>";
-        echo "<td>" . $row["create_at"] . "</td>";
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr class='" . ($row["access_level"] !== "admin" ? "bg-gray-100" : "") . "'>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["user_id"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["name"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["username"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["password"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["email"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["access_level"] . "</td>";
+                        echo "<td class='border border-gray-300 px-4 py-2'>" . $row["create_at"] . "</td>";
 
-        // Cek level akses pengguna sebelum menampilkan tombol Edit dan Delete
-        if ($row["access_level"] !== "admin") {
-            echo "<td><a class='edit-button' href='halaman_edit_user.php?user_id=" . $row['user_id'] . "'>Edit</a></td>";
-            echo "<td><a class='delete-button' href='halaman_hapus_user.php?user_id=" . $row['user_id'] . "'>Delete</a></td>";
-        } else {
-            echo "<td></td><td></td>"; // Tampilkan kolom kosong untuk pengguna admin
-        }
+                        // Cek level akses pengguna sebelum menampilkan tombol Edit dan Delete
+                        if ($row["access_level"] !== "admin") {
+                            echo "<td class='border border-gray-300 px-4 py-2'><a class='bg-green-400 text-white px-4 py-2 rounded' href='halaman_edit_user.php?user_id=" . $row['user_id'] . "'>Edit</a></td>";
+                            echo "<td class='border border-gray-300 px-4 py-2'>
+                                  <button class='bg-red-500 text-white px-4 py-2 rounded' onclick='sshowConfirmation(\"halaman_hapus_user.php?user_id=" . $row['user_id'] . "\")'>Delete</button>
+                                  </td>";
 
-        echo "</tr>";
-    }
-} else {
-    echo "<tr><td colspan='9'>No users found</td></tr>";
-}
+                        } else {
+                            echo "<td class='border border-black-300 px-4 py-2'></td><td class='border border-gray-300 px-4 py-2'></td>"; // Tampilkan kolom kosong untuk pengguna admin
+                        }
+
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='9' class='border border-gray-300 px-4 py-2'>No users found</td></tr>";
+                }
 
                 // Tutup koneksi ke database
                 mysqli_close($conn);
@@ -180,8 +92,10 @@ if (mysqli_num_rows($result) > 0) {
             </tbody>
         </table>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
+
 <script>
 function showConfirmation() {
     // Tampilkan notifikasi konfirmasi
@@ -195,4 +109,12 @@ function showConfirmation() {
         // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
     }
 }
+</script>
+
+<script>
+    function sshowConfirmation(url) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            window.location.href = url;
+        }
+    }
 </script>

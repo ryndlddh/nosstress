@@ -63,80 +63,35 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
-    <link rel="stylesheet" href="style/slfa.css">
-    <style>
-        /* CSS untuk tampilan umum */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-        /* CSS untuk konten utama */
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-        }
-
-        /* CSS untuk form */
-        form {
-            margin-top: 20px;
-        }
-
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            background-color: #3498db; /* Warna biru */
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #2980b9; /* Warna biru yang sedikit lebih gelap saat dihover */
-        }
-    </style>
 </head>
-<body>
+<body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
-    <div class="container">
-        <h2>Edit User</h2>
-        <form method="post" onsubmit="return validateForm()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?user_id=$user_id"; ?>">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo $user_data['name']; ?>" required>
-            <span id="name-error"></span>
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold text-center mb-4">Edit User</h2>
+        <form method="post" onsubmit="return validateForm()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?user_id=$user_id"; ?>" class="space-y-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+            <input type="text" id="name" name="name" value="<?php echo $user_data['name']; ?>" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
+            <span id="name-error" class="text-red-500"></span>
 
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<?php echo $user_data['username']; ?>" required>
-            <span id="username-error"></span>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+            <input type="text" id="username" name="username" value="<?php echo $user_data['username']; ?>" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
+            <span id="username-error" class="text-red-500"></span>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value="<?php echo $user_data['password']; ?>" required>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+            <input type="password" id="password" name="password" value="<?php echo $user_data['password']; ?>" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo $user_data['email']; ?>" required>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+            <input type="email" id="email" name="email" value="<?php echo $user_data['email']; ?>" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
 
-            <button type="submit">Update User</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
         </form>
     </div>
+    <?php include 'footer.php'?>
     <script>
         function validateForm() {
             var nameInput = document.getElementById("name").value;

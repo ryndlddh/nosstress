@@ -52,25 +52,29 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Album</title>
-    <link rel="stylesheet" href="style/slfa.css">
-    <link rel="stylesheet" href="style/komen.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
 
-    <div class="container">
-        <!-- Form to create new album -->
-        <h2>Create New Album</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="title">Judul:</label><br>
-            <input type="text" id="title" name="title"><br>
-            <label for="description">Deskirpsi:</label><br>
-            <textarea id="description" name="description"></textarea><br>
-            <button type="submit" value="Create">buat</button>
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold text-center mb-4">Create New Album</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Judul:</label>
+            <input type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+
+            <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi:</label>
+            <textarea id="description" name="description" class="mt-1 block w-full p-2 border border-gray-300 rounded"></textarea>
+
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Buat</button>
         </form>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
+
 <script>
 function showConfirmation() {
     // Tampilkan notifikasi konfirmasi

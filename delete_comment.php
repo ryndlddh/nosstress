@@ -26,7 +26,7 @@ if (isset($_GET['comment_id'])) {
     $comment_id = $_GET['comment_id'];
 } else {
     // Jika parameter comment_id tidak tersedia, arahkan pengguna kembali ke halaman sebelumnya
-    header("Location: view_comments.php?photo_id=" . $_POST['photo_id']);
+    header("Location: view_comments.php?photo_id=" . $_GET['photo_id']);
     exit();
 }
 
@@ -34,7 +34,7 @@ if (isset($_GET['comment_id'])) {
 $sql_delete_comment = "DELETE FROM comments WHERE comment_id = '$comment_id'";
 if (mysqli_query($conn, $sql_delete_comment)) {
     // Komentar berhasil dihapus, kembali ke halaman view_comments.php
-    header("Location: view_comments.php?photo_id=" . $_POST['photo_id']);
+    header("Location: view_comments.php?photo_id=" . $_GET['photo_id']);
     exit();
 } else {
     // Jika terjadi kesalahan saat menghapus komentar, tampilkan pesan error

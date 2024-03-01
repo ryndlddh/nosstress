@@ -83,68 +83,29 @@ if ($result_comment && mysqli_num_rows($result_comment) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Comment</title>
-    <style>
-        /* CSS untuk tampilan umum */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: vertical;
-        }
-
-        button[type="submit"] {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #555;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h2>Edit Comment</h2>
-        <form action="edit_comment.php?comment_id=<?php echo $comment_id; ?>" method="POST">
-            <textarea name="comment_text" rows="4" required><?php echo $comment_data['comment_text']; ?></textarea>
-            <!-- Tambahkan hidden input untuk menyimpan nilai created_at -->
-            <input type="hidden" name="current_created_at" value="<?php echo $comment_data['created_at']; ?>">
-            <button type="submit" name="submit_edit">Update Comment</button>
-        </form>
-        <?php
-        // Display error message if comment update fails
-        if (isset($comment_error)) {
-            echo "<p>$comment_error</p>";
-        }
-        ?>
+<body class="bg-gray-200">
+<?php include 'navbar.php'?>
+    <div class="container mx-auto p-4">
+        <div class="bg-white rounded shadow-md overflow-hidden p-4">
+            <h2 class="text-2xl font-bold mb-2">Edit Comment</h2>
+            <form action="edit_comment.php?comment_id=<?php echo $comment_id; ?>" method="POST" class="space-y-4">
+                <textarea name="comment_text" rows="4" required class="w-full p-2 border border-gray-300 rounded"><?php echo $comment_data['comment_text']; ?></textarea>
+                <input type="hidden" name="current_created_at" value="<?php echo $comment_data['created_at']; ?>">
+                <button type="submit" name="submit_edit" class="bg-blue-500 text-white px-4 py-2 rounded">Update Comment</button>
+            </form>
+            <?php
+            // Display error message if comment update fails
+            if (isset($comment_error)) {
+                echo "<p class='text-red-500'>$comment_error</p>";
+            }
+            ?>
+        </div>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
 

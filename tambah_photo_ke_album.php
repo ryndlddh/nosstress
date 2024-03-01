@@ -59,35 +59,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambahkan Foto ke Album</title>
-    <link rel="stylesheet" href="style/komen.css">
-    <link rel="stylesheet" href="style/slfa.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
-<body>
-    <?php include'navbar.php'; ?>
+<body class="bg-gray-200">
+<?php include'navbar.php'; ?>
 
-    <div class="container">
-    <h2>Tambahkan Foto ke Album</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?photo_id=$photo_id"; ?>">
-        <label for="album_id">Pilih Album:</label><br>
-        <select id="album_id" name="album_id" required>
-            <option value="" disabled selected>Pilih Album</option>
-            <?php
-            // Tampilkan daftar album yang dimiliki oleh pengguna
-            if (mysqli_num_rows($result_albums) > 0) {
-                while ($row = mysqli_fetch_assoc($result_albums)) {
-                    echo "<option value='" . $row['album_id'] . "'>" . $row['title'] . "</option>";
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold text-center mb-4">Tambahkan Foto ke Album</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?photo_id=$photo_id"; ?>" class="space-y-4">
+            <label for="album_id" class="block text-sm font-medium text-gray-700">Pilih Album:</label>
+            <select id="album_id" name="album_id" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                <option value="" disabled selected>Pilih Album</option>
+                <?php
+                // Tampilkan daftar album yang dimiliki oleh pengguna
+                if (mysqli_num_rows($result_albums) > 0) {
+                    while ($row = mysqli_fetch_assoc($result_albums)) {
+                        echo "<option value='" . $row['album_id'] . "'>" . $row['title'] . "</option>";
+                    }
+                } else {
+                    echo "<option value='' disabled>Tidak ada album</option>";
                 }
-            } else {
-                echo "<option value='' disabled>Tidak ada album</option>";
-            }
-            ?>
-        </select><br><br>
-        <button type="submit" type="submit" value="Tambahkan ke Album">Tambahkan Ke Album</button>
-    </form>
+                ?>
+            </select>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Tambahkan Ke Album</button>
+        </form>
     </div>
+    <?php include 'footer.php' ?>
 </body>
 </html>
+
 
 <?php
 // Tutup koneksi ke database
