@@ -52,118 +52,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-}
-
-.container {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-label {
-    font-weight: bold;
-    color: #1c1e21;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #dddfe2;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-input[type="checkbox"] {
-    margin-top: 10px;
-}
-
-input[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background-color: #1877f2; /* Warna biru Facebook */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #166fe5; /* Warna biru tua saat dihover */
-}
-
-.signup-link {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.signup-link a {
-    color: #1877f2; /* Warna biru Facebook */
-    text-decoration: none;
-}
-
-.signup-link a:hover {
-    text-decoration: underline;
-}
-
-.success-message {
-  text-align: center;
-  color: rgb(10, 224, 10);
-}
-
-/* Gaya untuk tampilan responsif */
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-        margin: 50px auto;
-    }
-    
-    input[type="text"],
-    input[type="password"] {
-        width: calc(100% - 20px);
-    }
-}
-</style>
-<link rel="stylesheet" href="../style/slfa.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
-    <div class="navbar">
-        <a href="../index.php">Home</a>
-        </div>
-    </div>
-    
+<body class="bg-gray-200">
+    <?php include 'nav.php' ?>
 
-
-<div class="container">
-    <h2>Login</h2>
-<?php if (!empty($success_message)): ?>
-  
-  <div class="success-message"><?php echo $success_message; ?></div>
-<?php endif; ?>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <div style="position: relative;">
-                <input type="password" id="password" name="password" required>
-                <input type="checkbox" id="showPassword"> <label for="showPassword">Show Password</label>
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Login Gallery
+                </h2>
             </div>
-            <input type="submit" value="Login">
-        </form>
-        <div class="signup-link">
-            <a href="daftar.php">Daftar Akun</a>.
+            <?php if (!empty($success_message)): ?>
+                <div class="text-center text-green-500 mt-4"><?php echo $success_message; ?></div>
+            <?php endif; ?>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="mt-8 space-y-6">
+                <input type="hidden" name="remember" value="true">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="username" class="sr-only">Username</label>
+                        <input id="username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username">
+                    </div>
+                    <div>
+                        <label for="password" class="sr-only">Password</label>
+                        <div class="relative">
+                            <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                            <input type="checkbox" id="showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                            <label for="showPassword" class="text-sm text-gray-500">Tampilkan sandi</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Login
+                    </button>
+                </div>
+            </form>
+            <div class="text-center text-gray-500 text-xs">
+                <p>Belim punya akun? <a href="daftar.php" class="text-blue-500 hover:text-blue-800">Daftar Akun</a>.</p>
+            </div>
         </div>
     </div>
     <script>
@@ -176,6 +107,7 @@ input[type="submit"]:hover {
             }
         });
     </script>
-</div>
+
+    <?php include '../footer.php' ?>
 </body>
 </html>

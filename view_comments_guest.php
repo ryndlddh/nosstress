@@ -1,13 +1,4 @@
 <?php
-// Mulai sesi
-session_start();
-
-// Fungsi untuk mengarahkan pengguna ke halaman login jika belum login
-function redirect_to_login() {
-    header("Location: dalam/login.php");
-    exit();
-}
-
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "album");
 
@@ -26,7 +17,7 @@ if (isset($_GET['photo_id'])) {
 }
 
 // Ambil informasi foto dari database berdasarkan photo_id
-$sql_photo = "SELECT * FROM photos WHERE photo_id = '$photo_id'";
+$sql_photo = "SELECT photos.*, users.name as username FROM photos INNER JOIN users ON photos.user_id = users.user_id WHERE photos.photo_id = '$photo_id'";
 $result_photo = mysqli_query($conn, $sql_photo);
 if ($result_photo && mysqli_num_rows($result_photo) > 0) {
     $photo_data = mysqli_fetch_assoc($result_photo);
@@ -48,6 +39,9 @@ $result_comments = mysqli_query($conn, $sql_comments);
 $sql_like_count = "SELECT COUNT(*) AS like_count FROM likes WHERE photo_id = '$photo_id'";
 $result_like_count = mysqli_query($conn, $sql_like_count);
 $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
+
+// Tutup koneksi ke database
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -56,48 +50,73 @@ $like_count = mysqli_fetch_assoc($result_like_count)['like_count'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Photo</title>
-    <link rel="stylesheet" href="style/slfa.css">
-    <link rel="stylesheet" href="style/komen.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
-<div class="navbar">
-        <a href="index.php">Home</a>
-        <a href="#admin">guest</a>
-        <div style="float: right;">
-        <a href="dalam/login.php">Login</a>
-        </div>
-    </div>
-    <div class="container">
-        <!-- Photo Details Section -->
-        <div class="photo-details">
-            <h2><?php echo $photo_data['title']; ?></h2>
-            <p><?php echo $photo_data['description']; ?></p>
-            <img src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
-            <p>Likes: <?php echo $like_count; ?></p>
-        </div>
+<body class="bg-gray-200">
+<?php include 'nav.php';?>
 
-        <!-- Comments Section -->
-        <div class="comments-section">
-            <h3>Comments</h3>
-            <!-- Display existing comments -->
-            <?php
-            if ($result_comments && mysqli_num_rows($result_comments) > 0) {
-                while ($row = mysqli_fetch_assoc($result_comments)) {
-                    echo "<div class='comment'>";
-                    echo "<p><strong>" . $row['commenter_name'] . "</strong>: " . $row['comment_text'] . "</p>";
-                    echo "<small>" . $row['created_at'] . "</small>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>Belum ada komentar di foto ini.</p>";
-            }
-            ?>
+<div class="container mx-auto p-4">
+    <!-- Photo Details Section -->
+    <div class="bg-white rounded shadow-md overflow-hidden p-4">
+        <p class="text-gray-500 mb-4"><?php echo htmlspecialchars($photo_data['username'], ENT_QUOTES, 'UTF-8'); ?></p>   
+        <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
+        <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
+        <div class="flex justify-center">
+            <img class="w-1/2 h-96 object-cover" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
         </div>
+        <p class="text-gray-500 mb-4">suka: <?php echo $like_count; ?></p>
     </div>
+
+    <!-- Comments Section -->
+    <div class="bg-white rounded shadow-md overflow-hidden p-4 mt-4">
+        <h3 class="text-xl font-bold mb-2">Comments</h3>
+        <!-- Display existing comments -->
+        <?php
+        if ($result_comments && mysqli_num_rows($result_comments) > 0) {
+            while ($row = mysqli_fetch_assoc($result_comments)) {
+                echo "<div class='border-b border-gray-200 py-4'>";
+                echo "<p class='text-gray-700'><strong>" . $row['commenter_name'] . "</strong>: " . $row['comment_text'] . "</p>";
+                echo "<small class='text-gray-500'>" . $row['created_at'] . "</small>";
+                if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') {
+                    // Admin can edit and delete any comment
+                    echo "<div class='mt-2'><a href='edit_comment.php?comment_id=" . $row['comment_id'] . "' class='text-blue-500 hover:text-blue-700'>Edit</a></div>";
+                    echo "<div class='mt-2'>
+                            <button class='text-red-500 hover:text-red-700' onclick='sshowConfirmation(this, \"delete_comment.php?comment_id=" . $row['comment_id'] . "&photo_id=" . $_GET["photo_id"] . "\")'><i class='fa-solid fa-trash'></i></button>
+                            </div>";
+                } elseif (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']) {
+                    // User can edit and delete their own comments
+                    echo "<div class='mt-2'><a href='edit_comment.php?comment_id=" . $row['comment_id'] . "' class='text-blue-500 hover:text-blue-700'>Edit</a></div>";
+                    echo "<div class='mt-2'>
+                            <button class='text-red-500 hover:text-red-700' onclick='sshowConfirmation(this, \"delete_comment.php?comment_id=" . $row['comment_id'] . "&photo_id=" . $_GET["photo_id"] . "\")'><i class='fa-solid fa-trash'></i></button>
+                            </div>";
+                }
+                echo "</div>";
+            }
+        } else {
+            echo "<p class='text-gray-500'>Belum ada komentar di foto ini.</p>";
+        }
+        ?>
+
+        
+    </div>
+</div>
+<?php include 'footer.php';?>
+
+<script>
+    function showConfirmation() {
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
+    if (confirmation) {
+        window.location.href = "dalam/logout.php";
+    }
+}
+
+    function sshowConfirmation(button, url) {
+        if (confirm("Are you sure you want to delete this comment?")) {
+            window.location.href = url;
+        }
+    }
+</script>
 </body>
 </html>
-
-<?php
-// Tutup koneksi ke database
-mysqli_close($conn);
-?>
