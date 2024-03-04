@@ -105,7 +105,7 @@ mysqli_close($conn);
         <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
         <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
         <div class="flex justify-center">
-            <img class="w-1/2 h-96 object-cover" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
+            <img class="" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
         </div>
         <p class="text-gray-500 mb-4">suka: <?php echo $like_count; ?></p>
         <form method="post" action="view_comments.php?photo_id=<?php echo $photo_id; ?>">
@@ -150,8 +150,8 @@ mysqli_close($conn);
         <!-- Form to add new comment -->
         <form action="proses_commants.php" method="POST" class="mt-4">
             <input type="hidden" name="photo_id" value="<?php echo $photo_id; ?>">
-            <textarea name="comment_text" rows="3" placeholder="Add your comment here..." required class="w-full p-2 border border-gray-300 rounded mb-2"></textarea>
-            <button type="submit" name="submit_comment" class="bg-blue-500 text-white px-4 py-2 rounded">Add Comment</button>
+            <textarea name="comment_text" rows="3" placeholder="Ketik komentar anda..." required class="w-full p-2 border border-gray-300 rounded mb-2"></textarea>
+            <button type="submit" name="submit_comment" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah komentar...<i class="fa-solid fa-paper-plane"></i></button>
         </form>
 
         <?php

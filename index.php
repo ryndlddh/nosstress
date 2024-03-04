@@ -36,8 +36,7 @@ mysqli_close($conn);
             die("Koneksi gagal: " . mysqli_connect_error());
         }
 
-        $sql = "SELECT photos.*, users.name as username, users.access_level FROM photos INNER JOIN users ON photos.user_id = users.user_id";
-
+        $sql = "SELECT photos.*, users.name as username, users.access_level FROM photos INNER JOIN users ON photos.user_id = users.user_id ORDER BY photos.create_at DESC";
         // Eksekusi query
         $result = mysqli_query($conn, $sql);
 
@@ -73,6 +72,7 @@ mysqli_close($conn);
                     echo "<div class='mt-2'>";
                     echo "<p class='text-gray-700'>" . $row['title'] . "</p>";
                     echo "<p class='text-gray-500'>" . $row['description'] . "</p>";
+                    echo "<br>";
                     echo "<a href='view_comments_guest.php?photo_id=" . $row['photo_id'] . "' class='bg-gray-400 text-white px-4 py-2 rounded mr-2'>Lihat selengkapnya    <i class='fa-solid fa-arrow-right'></i></a>";
                     echo "</div>";
                     echo "<div class='mt-4'>";

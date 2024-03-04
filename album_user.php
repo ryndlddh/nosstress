@@ -1,4 +1,17 @@
 <?php
+// Mulai sesi
+session_start();
+
+// Fungsi untuk mengarahkan pengguna ke halaman login jika belum login
+function redirect_to_login() {
+    header("Location: dalam/login.php");
+    exit();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['user_id'])) {
+    redirect_to_login();
+}
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "album");
 
@@ -57,23 +70,50 @@ mysqli_close($conn);
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold mb-4">Album Gallery</h1>
         <?php foreach ($albums as $album): ?>
-            <div class="album-container">
-                <h2 class="text-2xl font-semibold mb-2"><?php echo $album['title']; ?></h2>
-                <p class="text-gray-600 mb-4"><?php echo $album['description']; ?></p>
-                
-                <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-                    <?php foreach ($album['photo_paths'] as $photo_path): ?>
-                        <div class="bg-white rounded shadow-md overflow-hidden">
-                            <img class="w-full h-48 object-cover" src="<?php echo $photo_path; ?>" alt="<?php echo $album['title']; ?>">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
+    <div class="album-container">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h2 class="text-2xl font-semibold"><?php echo $album['title']; ?></h2>
+                <p class="text-gray-600 mt-2"><?php echo $album['description']; ?></p>
             </div>
-        <?php endforeach; ?>
+            <div class="flex">
+                <?php if ($_SESSION['access_level'] == 'admin' || $_SESSION['user_id'] == $album['user_id']): ?>
+                    <form action="edit_album.php" method="get">
+                        <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Edit</button>
+                    </form>
+                    <button onclick="sshowConfirmation('<?php echo $album['album_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
+
+
+
+                <?php endif; ?>
+            </div>
+        </div>
+        <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            <?php foreach ($album['photo_paths'] as $photo_path): ?>
+                <div class="bg-white rounded shadow-md overflow-hidden">
+                    <img class="w-full h-48 object-cover" src="<?php echo $photo_path; ?>" alt="<?php echo $album['title']; ?>">
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
+    </div>
+<?php endforeach; ?>
+
     </div>
     <?php include 'footer.php'?>
+    <script>
+function sshowConfirmation(albumId) {
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus album ini?");
+    if (confirmation) {
+        window.location.href = "hapus_album.php?album_id=" + albumId;
+    }
+}
+</script>
+
+
+
 </body>
 </html>
 <script>

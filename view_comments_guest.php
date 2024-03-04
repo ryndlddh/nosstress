@@ -64,7 +64,7 @@ mysqli_close($conn);
         <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
         <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
         <div class="flex justify-center">
-            <img class="w-1/2 h-96 object-cover" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
+            <img class="" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
         </div>
         <p class="text-gray-500 mb-4">suka: <?php echo $like_count; ?></p>
     </div>
