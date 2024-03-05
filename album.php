@@ -1,4 +1,6 @@
 <?php
+
+
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "album");
 
@@ -8,7 +10,7 @@ if (!$conn) {
 }
 
 // Query untuk mengambil semua album beserta foto-fotonya
-$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.image_path) as photo_paths
+$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) as photo_paths
         FROM albums
         INNER JOIN users ON albums.user_id = users.user_id
         INNER JOIN photos ON albums.album_id = photos.album_id
@@ -22,7 +24,13 @@ $albums = array();
 if (mysqli_num_rows($result) > 0) {
     // Ambil setiap baris hasil query dan simpan dalam array
     while ($row = mysqli_fetch_assoc($result)) {
-        $row['photo_paths'] = explode(',', $row['photo_paths']); // Pisahkan setiap path foto menjadi array
+        $photo_paths = explode(',', $row['photo_paths']);
+        $photos = array();
+        foreach ($photo_paths as $path) {
+            list($photo_id, $image_path) = explode('|', $path);
+            $photos[] = array('photo_id' => $photo_id, 'image_path' => $image_path);
+        }
+        $row['photo_paths'] = $photos;
         $albums[] = $row;
     }
 }
@@ -53,27 +61,47 @@ mysqli_close($conn);
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'?>
+    <?php include 'nav.php'?>
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold mb-4">Album Gallery</h1>
         <?php foreach ($albums as $album): ?>
-            <div class="album-container">
-                <h2 class="text-2xl font-semibold mb-2"><?php echo $album['title']; ?></h2>
-                <p class="text-gray-600 mb-4"><?php echo $album['description']; ?></p>
-                
-                <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-                    <?php foreach ($album['photo_paths'] as $photo_path): ?>
-                        <div class="bg-white rounded shadow-md overflow-hidden">
-                            <img class="w-full h-48 object-cover" src="<?php echo $photo_path; ?>" alt="<?php echo $album['title']; ?>">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
+    <div class="album-container">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h2 class="text-2xl font-semibold"><?php echo $album['title']; ?></h2>
+                <p class="text-gray-600 mt-2"><?php echo $album['description']; ?></p>
             </div>
-        <?php endforeach; ?>
+            <div class="flex">
+                
+            </div>
+        </div>
+        <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            <?php foreach ($album['photo_paths'] as $photo): ?>
+                <div class="bg-white rounded shadow-md overflow-hidden">
+                    <a href="view_comments_guest.php?photo_id=<?php echo $photo['photo_id']; ?>">
+                        <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
+    </div>
+<?php endforeach; ?>
+
     </div>
     <?php include 'footer.php'?>
+    <script>
+function sshowConfirmation(albumId) {
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus album ini?");
+    if (confirmation) {
+        window.location.href = "hapus_album.php?album_id=" + albumId;
+    }
+}
+</script>
+
+
+
 </body>
 </html>
 <script>

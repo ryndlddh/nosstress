@@ -12,6 +12,7 @@ function redirect_to_login() {
 if (!isset($_SESSION['user_id'])) {
     redirect_to_login();
 }
+
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "album");
 
@@ -21,7 +22,7 @@ if (!$conn) {
 }
 
 // Query untuk mengambil semua album beserta foto-fotonya
-$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.image_path) as photo_paths
+$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) as photo_paths
         FROM albums
         INNER JOIN users ON albums.user_id = users.user_id
         INNER JOIN photos ON albums.album_id = photos.album_id
@@ -35,7 +36,13 @@ $albums = array();
 if (mysqli_num_rows($result) > 0) {
     // Ambil setiap baris hasil query dan simpan dalam array
     while ($row = mysqli_fetch_assoc($result)) {
-        $row['photo_paths'] = explode(',', $row['photo_paths']); // Pisahkan setiap path foto menjadi array
+        $photo_paths = explode(',', $row['photo_paths']);
+        $photos = array();
+        foreach ($photo_paths as $path) {
+            list($photo_id, $image_path) = explode('|', $path);
+            $photos[] = array('photo_id' => $photo_id, 'image_path' => $image_path);
+        }
+        $row['photo_paths'] = $photos;
         $albums[] = $row;
     }
 }
@@ -80,20 +87,19 @@ mysqli_close($conn);
                 <?php if ($_SESSION['access_level'] == 'admin' || $_SESSION['user_id'] == $album['user_id']): ?>
                     <form action="edit_album.php" method="get">
                         <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Edit</button>
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mr-2"><i class='fa-solid fa-pen'></i></button>
                     </form>
-                    <button onclick="sshowConfirmation('<?php echo $album['album_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
-
-
-
+                    <button onclick="sshowConfirmation('<?php echo $album['album_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded"><i class='fa-solid fa-trash'></i></button>
                 <?php endif; ?>
             </div>
         </div>
         <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            <?php foreach ($album['photo_paths'] as $photo_path): ?>
+            <?php foreach ($album['photo_paths'] as $photo): ?>
                 <div class="bg-white rounded shadow-md overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="<?php echo $photo_path; ?>" alt="<?php echo $album['title']; ?>">
+                    <a href="view_comments.php?photo_id=<?php echo $photo['photo_id']; ?>">
+                        <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
+                    </a>
                 </div>
             <?php endforeach; ?>
         </div>

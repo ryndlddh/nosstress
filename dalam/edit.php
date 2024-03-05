@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="bg-gray-200">
 
-    <?php include 'navdalam.php'?>
+    <?php include 'navdalam.php' ?>
     
     <div class="container mx-auto p-4">
         <h2 class="text-2xl font-bold text-center mb-4">Edit Foto</h2>

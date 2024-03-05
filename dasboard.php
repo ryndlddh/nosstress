@@ -91,10 +91,10 @@ mysqli_close($conn);
                     echo "<a href='tambah_photo_ke_album.php?photo_id=" . $added_photo['photo_id'] . "' class='bg-blue-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-plus'></i></a>";
                 }
                 if (isset($_SESSION['access_level']) && $_SESSION['access_level'] == 'admin') {
-                    echo "<a href='dalam/edit.php?photo_id=" . $added_photo['photo_id'] . "' class='bg-green-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
+                    echo "<a href='dalam/edit.php?photo_id=" . $added_photo['photo_id'] . "' class='bg-yellow-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
                     echo "<button class='bg-red-500 text-white px-4 py-2 rounded' onclick='sshowConfirmation(this, " . $added_photo['photo_id'] . ")'><i class='fa-solid fa-trash'></i></button>";
                 } else if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $added_photo['user_id']) {
-                    echo "<a href='dalam/edit.php?photo_id=" . $added_photo['photo_id'] . "' class='bg-green-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
+                    echo "<a href='dalam/edit.php?photo_id=" . $added_photo['photo_id'] . "' class='bg-yellow-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
                     echo "<button class='bg-red-500 text-white px-4 py-2 rounded' onclick='sshowConfirmation(this, " . $added_photo['photo_id'] . ")'>
                     
                     </button>";
@@ -128,7 +128,7 @@ mysqli_close($conn);
                         echo "<button class='bg-red-500 text-white px-4 py-2 rounded' onclick='sshowConfirmation(this, " . $row['photo_id'] . ")'><i class='fa-solid fa-trash'></i></button>";
 
                     } else if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']) {
-                        echo "<a href='dalam/edit.php?photo_id=" . $row['photo_id'] . "' class='bg-green-500 text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
+                        echo "<a href='dalam/edit.php?photo_id=" . $row['photo_id'] . "' class='bg-green-50yellow text-white px-4 py-2 rounded mr-2'><i class='fa-solid fa-pen'></i></a>";
                         echo "<button class='bg-red-500 text-white px-4 py-2 rounded' onclick='sshowConfirmation(this, " . $row['photo_id'] . ")'><i class='fa-solid fa-trash'></i></button>";
 
                     }
