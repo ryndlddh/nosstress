@@ -8,8 +8,6 @@ function redirect_to_login() {
     exit();
 }
 
-$photo_id=$_GET['photo_id'];
-
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
     redirect_to_login();
