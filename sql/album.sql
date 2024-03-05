@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Mar 2024 pada 04.59
+-- Waktu pembuatan: 05 Mar 2024 pada 13.29
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -81,6 +81,20 @@ CREATE TABLE `photos` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `report`
+--
+
+CREATE TABLE `report` (
+  `report_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `photo_id` int(11) NOT NULL,
+  `report` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -99,7 +113,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `username`, `password`, `email`, `access_level`, `create_at`) VALUES
-(1, 'Reynaldi Dwi Heryadi', 'rynldidh', 'qwertyuiop', 'rynldidh@gmail.com', 'admin', '2024-03-04 07:30:16');
+(1, 'Reynaldi Dwi Heryadi', 'rynldidh', 'qwertyuiop', 'rynldidh@gmail.com', 'admin', '2024-03-05 12:25:38');
 
 --
 -- Indexes for dumped tables
@@ -128,6 +142,12 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `photos`
   ADD PRIMARY KEY (`photo_id`);
+
+--
+-- Indeks untuk tabel `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`report_id`);
 
 --
 -- Indeks untuk tabel `users`
@@ -163,6 +183,12 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `photos`
   MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `report`
+--
+ALTER TABLE `report`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

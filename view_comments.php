@@ -101,9 +101,30 @@ mysqli_close($conn);
 <div class="container mx-auto p-4">
     <!-- Photo Details Section -->
     <div class="bg-white rounded shadow-md overflow-hidden p-4">
-        <p class="text-gray-500 mb-4"><?php echo htmlspecialchars($photo_data['username'], ENT_QUOTES, 'UTF-8'); ?></p>   
-        <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
-        <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
+        <!-- Tombol Ripot -->
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <p class="text-gray-500 mb-4"><?php echo htmlspecialchars($photo_data['username'], ENT_QUOTES, 'UTF-8'); ?></p>   
+                <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
+                <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
+            </div>
+            <div>
+    <?php
+    // Cek level akses pengguna
+    if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') {
+        // Admin dapat mengakses edit dan hapus
+        echo '<a href="dalam/edit.php?photo_id=' . $photo_id . '" class="ripot-btn bg-yellow-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-pen"></i></a>';
+        echo '<button onclick="ssshowConfirmation(this, \'' . $photo_id . '\')" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-trash"></i></button>';
+    } elseif (isset($_SESSION['user_id']) && $photo_data['user_id'] == $_SESSION['user_id']) {
+        // Pengguna yang mengunggah foto dapat mengakses edit dan hapus
+        echo '<a href="dalam/edit.php?photo_id=' . $photo_id . '" class="ripot-btn bg-yellow-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-pen"></i></a>';
+        echo '<button onclick="ssshowConfirmation(this, \'' . $photo_id . '\')" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-trash"></i></button>';
+    }
+    ?>
+    <a href="report.php?photo_id=<?php echo $photo_id; ?>" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4">Report</a>
+        </div>
+        </div>
+                
         <div class="flex justify-center">
             <img class="" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
         </div>
@@ -116,7 +137,6 @@ mysqli_close($conn);
             <?php endif; ?>
         </form>
     </div>
-
     <!-- Comments Section -->
     <div class="bg-white rounded shadow-md overflow-hidden p-4 mt-4">
         <h3 class="text-xl font-bold mb-2">Comments</h3>
@@ -175,6 +195,13 @@ mysqli_close($conn);
     function sshowConfirmation(button, url) {
         if (confirm("Are you sure you want to delete this comment?")) {
             window.location.href = url;
+        }
+    }
+
+    function ssshowConfirmation(button, photoId) {
+        var confirmation = confirm("Apakah Anda yakin ingin menghapus foto ini?");
+        if (confirmation) {
+            window.location.href = "dalam/hapus_photo.php?photo_id=" + photoId;
         }
     }
 </script>

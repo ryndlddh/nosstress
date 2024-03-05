@@ -1,18 +1,12 @@
 <?php
-// Mulai sesi
 session_start();
 
-// Fungsi untuk mengarahkan pengguna ke halaman login jika belum login
-function redirect_to_login() {
-    header("Location: dalam/login.php");
+// Periksa apakah pengguna adalah admin
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
+    // Jika bukan admin, arahkan ke index.php
+    header("Location: index.php");
     exit();
 }
-
-// Periksa apakah pengguna sudah login
-if (!isset($_SESSION['user_id'])) {
-    redirect_to_login();
-}
-
 // Periksa apakah user_id dikirim melalui parameter URL
 if (!isset($_GET['user_id'])) {
     header("Location: halaman_admin.php");

@@ -8,6 +8,7 @@
         <?php endif; ?>
         <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
             <a href="halaman_admin.php" class="text-xl mr-4 hover:underline ">Admin</a>
+            <a href="read_report.php" class="text-xl mr-4 hover:underline ">Keluhan</a>
         <?php endif; ?>
         <a href="album_user.php" rel="noopener noreferrer" class="text-xl mr-4 hover:underline ">Lihat Album</a>
         <a href="upload.php" class="text-xl mr-4 hover:underline ">Upload</a>
