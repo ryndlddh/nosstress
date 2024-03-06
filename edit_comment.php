@@ -82,16 +82,17 @@ if ($result_comment && mysqli_num_rows($result_comment) > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Comment</title>
+    <title>Edit Komentar</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="asset/ryegallery.png" type="image/x-icon">
 </head>
 <body class="bg-gray-200">
 <?php include 'navbar.php'?>
     <div class="container mx-auto p-4">
         <div class="bg-white rounded shadow-md overflow-hidden p-4">
-            <h2 class="text-2xl font-bold mb-2">Edit Comment</h2>
+            <h2 class="text-2xl font-bold mb-2">Edit Komentar</h2>
             <form action="edit_comment.php?comment_id=<?php echo $comment_id; ?>" method="POST" class="space-y-4">
                 <textarea name="comment_text" rows="4" required class="w-full p-2 border border-gray-300 rounded"><?php echo $comment_data['comment_text']; ?></textarea>
                 <input type="hidden" name="current_created_at" value="<?php echo $comment_data['created_at']; ?>">

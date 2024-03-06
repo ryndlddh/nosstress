@@ -90,10 +90,11 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Photo</title>
+    <title>Lihat Foto</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="asset/ryegallery.png" type="image/x-icon">
 </head>
 <body class="bg-gray-200">
 <?php include'navbar.php';?>
@@ -114,14 +115,22 @@ mysqli_close($conn);
     if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') {
         // Admin dapat mengakses edit dan hapus
         echo '<a href="dalam/edit.php?photo_id=' . $photo_id . '" class="ripot-btn bg-yellow-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-pen"></i></a>';
+        echo '<br>';
+        echo '<br>';
         echo '<button onclick="ssshowConfirmation(this, \'' . $photo_id . '\')" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-trash"></i></button>';
     } elseif (isset($_SESSION['user_id']) && $photo_data['user_id'] == $_SESSION['user_id']) {
         // Pengguna yang mengunggah foto dapat mengakses edit dan hapus
         echo '<a href="dalam/edit.php?photo_id=' . $photo_id . '" class="ripot-btn bg-yellow-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-pen"></i></a>';
+        echo '<br>';
+        echo '<br>';
         echo '<button onclick="ssshowConfirmation(this, \'' . $photo_id . '\')" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4"><i class="fa-solid fa-trash"></i></button>';
     }
     ?>
-    <a href="report.php?photo_id=<?php echo $photo_id; ?>" class="ripot-btn bg-red-500 text-white px-4 py-2 rounded mb-4">Report</a>
+    <?php
+    if ($_SESSION['user_id'] != $photo_data['user_id']) {
+        echo "<a href='report.php?photo_id=" . $photo_id . "' class='text-red-500 hover:text-red-700'>Report</a>";
+    }
+    ?>
         </div>
         </div>
                 

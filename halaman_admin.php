@@ -13,10 +13,11 @@ if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Page - User List</title>
+<title>Halaman Admin</title>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="shortcut icon" href="asset/ryegallery.png" type="image/x-icon">
 </head>
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>

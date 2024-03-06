@@ -51,16 +51,17 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Album</title>
+    <title>Buat Album</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="asset/ryegallery.png" type="image/x-icon">
 </head>
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
 
     <div class="container mx-auto p-4">
-        <h2 class="text-2xl font-bold text-center mb-4">Create New Album</h2>
+        <h2 class="text-2xl font-bold text-center mb-4">Buat Album Baru</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Judul:</label>
             <input type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded">
