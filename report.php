@@ -41,18 +41,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mengeksekusi query SQL
     if (mysqli_query($conn, $sql)) {
-        // Jika berhasil, arahkan pengguna kembali ke halaman sebelumnya
+        // Jika berhasil, simpan pesan sukses ke dalam session
+        $_SESSION['success_message'] = "Foto ini sudah berhasil di Report";
+        // Arahkan pengguna kembali ke halaman sebelumnya
         header("Location: view_comments.php?photo_id=$photo_id");
         exit();
     } else {
         // Jika gagal, tampilkan pesan error
         $error_message = "Terjadi kesalahan saat menyimpan laporan: " . mysqli_error($conn);
     }
-}
+} // Penutupan blok kode if yang hilang
 
 // Tutup koneksi ke database
 mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

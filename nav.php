@@ -3,7 +3,7 @@
         <a href="index.php" class="text-xl mr-4 hover:text-red-500">
             <i class="fas fa-house"></i>
         </a>
-        <a href="#" class="text-xl mr-4">Guest</a>
+        <a href="#" class="text-xl mr-4"> Haii Guest</a>
         <a href="album.php" class="text-xl mr-4 hover:underline" >Lihat Album</a>
     </div>
     <div>

@@ -67,7 +67,7 @@ mysqli_close($conn);
                     <td class="border px-4 py-2"><?php echo $row['report']; ?></td>
                     <td class="border px-4 py-2"><?php echo $row['created_at']; ?></td>
                     <td class="border px-4 py-2">
-                    <a href='view_comments.php?photo_id=<?php echo $row['photo_id']; ?>' class=''>Lihat Foto <i class='fa-solid fa-arrow-right'></i></a>
+                    <a href='view_comments.php?photo_id=<?php echo $row['photo_id']; ?>' class=''>Lihat Foto</a>
                     </td>
                     
                     <!-- Bagian yang diperbaiki -->

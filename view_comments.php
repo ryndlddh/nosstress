@@ -2,6 +2,13 @@
 // Mulai sesi
 session_start();
 
+$success_message = "";
+if (isset($_SESSION['success_message'])) {
+    // Tampilkan pesan sukses dan hapusnya dari session
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+
 // Fungsi untuk mengarahkan pengguna ke halaman login jika belum login
 function redirect_to_login() {
     header("Location: dalam/login.php");
@@ -108,6 +115,9 @@ mysqli_close($conn);
                 <p class="text-gray-500 mb-4"><?php echo htmlspecialchars($photo_data['username'], ENT_QUOTES, 'UTF-8'); ?></p>   
                 <h2 class="text-2xl font-bold mb-2"><?php echo $photo_data['title']; ?></h2>
                 <p class="text-gray-700 mb-4"><?php echo $photo_data['description']; ?></p>
+                <?php if (!empty($success_message)): ?>
+                <div class="text-center text-green-500 mt-4"><?php echo $success_message; ?></div>
+            <?php endif; ?>
             </div>
             <div>
     <?php
@@ -128,13 +138,14 @@ mysqli_close($conn);
     ?>
     <?php
     if ($_SESSION['user_id'] != $photo_data['user_id']) {
-        echo "<a href='report.php?photo_id=" . $photo_id . "' class='text-red-500 hover:text-red-700'>Report</a>";
+        echo "<a href='report.php?photo_id=" . $photo_id . "' class='ripot-btn bg-red-500 text-white hover:text-gray-700 px-4 py-2 rounded mb-4'>Report   <i class='fa-solid fa-circle-exclamation'></i></a>";
     }
     ?>
         </div>
         </div>
                 
         <div class="flex justify-center">
+            
             <img class="" src="<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
         </div>
         <p class="text-gray-500 mb-4">suka: <?php echo $like_count; ?></p>
@@ -148,7 +159,7 @@ mysqli_close($conn);
     </div>
     <!-- Comments Section -->
     <div class="bg-white rounded shadow-md overflow-hidden p-4 mt-4">
-        <h3 class="text-xl font-bold mb-2">Comments</h3>
+        <h3 class="text-xl font-bold mb-2">Komentars</h3>
         <!-- Display existing comments -->
         <?php
         if ($result_comments && mysqli_num_rows($result_comments) > 0) {
