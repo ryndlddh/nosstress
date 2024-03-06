@@ -10,11 +10,20 @@ if (!$conn) {
 }
 
 // Query untuk mengambil semua album beserta foto-fotonya
-$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) as photo_paths
+// Query untuk mengambil semua album beserta foto-fotonya
+$sql = "SELECT albums.*, users.name AS user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) AS photo_paths
         FROM albums
         INNER JOIN users ON albums.user_id = users.user_id
         INNER JOIN photos ON albums.album_id = photos.album_id
-        GROUP BY albums.album_id";
+        WHERE albums.access = 'PUBLIC'";
+
+// Jika pengguna sudah login, tambahkan kondisi untuk mengambil album pribadi milik pengguna tersebut
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $sql .= " OR albums.user_id = '$user_id'";
+}
+
+$sql .= " GROUP BY albums.album_id";
 $result = mysqli_query($conn, $sql);
 
 // Inisialisasi array untuk menyimpan data album dan foto
@@ -72,18 +81,17 @@ mysqli_close($conn);
                 <h2 class="text-2xl font-semibold"><?php echo $album['title']; ?></h2>
                 <p class="text-gray-600 mt-2"><?php echo $album['description']; ?></p>
             </div>
-            <div class="flex">
-                
-            </div>
         </div>
         <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
             <?php foreach ($album['photo_paths'] as $photo): ?>
-                <div class="bg-white rounded shadow-md overflow-hidden">
-                    <a href="view_comments_guest.php?photo_id=<?php echo $photo['photo_id']; ?>">
-                        <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
-                    </a>
-                </div>
+                <?php if ($album['access'] == 'PUBLIC' || (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $album['user_id'])): ?>
+                    <div class="bg-white rounded shadow-md overflow-hidden">
+                        <a href="view_comments_guest.php?photo_id=<?php echo $photo['photo_id']; ?>">
+                            <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
+                        </a>
+                    </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         </div>
         <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>

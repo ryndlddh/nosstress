@@ -37,6 +37,7 @@ if (isset($_GET['photo_id'])) {
     exit();
 }
 
+
 // Ambil informasi foto dari database berdasarkan photo_id
 $sql_photo = "SELECT photos.*, users.name as username FROM photos INNER JOIN users ON photos.user_id = users.user_id WHERE photos.photo_id = '$photo_id'";
 $result_photo = mysqli_query($conn, $sql_photo);

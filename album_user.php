@@ -22,11 +22,21 @@ if (!$conn) {
 }
 
 // Query untuk mengambil semua album beserta foto-fotonya
-$sql = "SELECT albums.*, users.name as user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) as photo_paths
+$sql = "SELECT albums.*, users.name AS user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) AS photo_paths
         FROM albums
         INNER JOIN users ON albums.user_id = users.user_id
         INNER JOIN photos ON albums.album_id = photos.album_id
-        GROUP BY albums.album_id";
+        WHERE (albums.access = 'PUBLIC' OR (albums.user_id = '" . $_SESSION['user_id'] . "' AND albums.access = 'PRIVATE'))";
+
+// Jika pengguna adalah admin, tambahkan kondisi untuk menampilkan semua album
+if (isset($_SESSION['access_level']) && $_SESSION['access_level'] == 'admin') {
+    $sql = "SELECT albums.*, users.name AS user_name, GROUP_CONCAT(photos.photo_id, '|', photos.image_path) AS photo_paths
+            FROM albums
+            INNER JOIN users ON albums.user_id = users.user_id
+            INNER JOIN photos ON albums.album_id = photos.album_id";
+}
+
+$sql .= " GROUP BY albums.album_id";
 $result = mysqli_query($conn, $sql);
 
 // Inisialisasi array untuk menyimpan data album dan foto
@@ -78,62 +88,50 @@ mysqli_close($conn);
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold mb-4">Album Gallery</h1>
         <?php foreach ($albums as $album): ?>
-    <div class="album-container">
-        <div class="flex justify-between items-start mb-4">
-            <div>
-                <h2 class="text-2xl font-semibold"><?php echo $album['title']; ?></h2>
-                <p class="text-gray-600 mt-2"><?php echo $album['description']; ?></p>
-            </div>
-            <div class="flex">
-                <?php if ($_SESSION['access_level'] == 'admin' || $_SESSION['user_id'] == $album['user_id']): ?>
-                    <form action="edit_album.php" method="get">
-                        <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mr-2"><i class='fa-solid fa-pen'></i></button>
-                    </form>
-                    <button onclick="sshowConfirmation('<?php echo $album['album_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded"><i class='fa-solid fa-trash'></i></button>
-                <?php endif; ?>
-            </div>
-        </div>
-        <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            <?php foreach ($album['photo_paths'] as $photo): ?>
-                <div class="bg-white rounded shadow-md overflow-hidden">
-                    <a href="view_comments.php?photo_id=<?php echo $photo['photo_id']; ?>">
-                        <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
-                    </a>
+            <div class="album-container">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h2 class="text-2xl font-semibold"><?php echo $album['title']; ?></h2>
+                        <p class="text-gray-600 mt-2"><?php echo $album['description']; ?></p>
+                    </div>
+                    <div class="flex">
+                        <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] == 'admin' || $_SESSION['user_id'] == $album['user_id']): ?>
+                            <form action="edit_album.php" method="get">
+                                <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
+                                <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mr-2"><i class='fa-solid fa-pen'></i></button>
+                            </form>
+                            <button onclick="sshowConfirmation('<?php echo $album['album_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded"><i class='fa-solid fa-trash'></i></button>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
-        <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
-    </div>
-<?php endforeach; ?>
-
+                <p class="text-gray-700">By <?php echo $album['user_name']; ?></p>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                    <?php foreach ($album['photo_paths'] as $photo): ?>
+                        <div class="bg-white rounded shadow-md overflow-hidden">
+                            <a href="view_comments.php?photo_id=<?php echo $photo['photo_id']; ?>">
+                                <img class="w-full h-48 object-cover" src="<?php echo $photo['image_path']; ?>" alt="<?php echo $album['title']; ?>">
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <p class="text-gray-400 mb-3"><?php echo $album['created_at']; ?></p>
+            </div>
+        <?php endforeach; ?>
     </div>
     <?php include 'footer.php'?>
     <script>
-function sshowConfirmation(albumId) {
-    var confirmation = confirm("Apakah Anda yakin ingin menghapus album ini?");
+        function showConfirmation() {
+    var confirmation = confirm("Apakah Anda yakin ingin logout?");
     if (confirmation) {
-        window.location.href = "hapus_album.php?album_id=" + albumId;
+        window.location.href = "dalam/logout.php";
     }
 }
-</script>
-
-
-
+        function sshowConfirmation(albumId) {
+            var confirmation = confirm("Apakah Anda yakin ingin menghapus album ini?");
+            if (confirmation) {
+                window.location.href = "hapus_album.php?album_id=" + albumId;
+            }
+        }
+    </script>
 </body>
 </html>
-<script>
-function showConfirmation() {
-    // Tampilkan notifikasi konfirmasi
-    var confirmation = confirm("Apakah Anda yakin ingin logout?");
-    
-    // Jika pengguna menekan tombol "OK" pada notifikasi konfirmasi
-    if (confirmation) {
-        // Lakukan perintah logout atau tindakan lainnya
-        window.location.href = "dalam/logout.php"; // Ganti dengan URL logout atau tindakan lainnya
-    } else {
-        // Jika pengguna memilih "Tidak" atau menutup notifikasi, tidak ada tindakan yang diambil
-    }
-}
-</script>

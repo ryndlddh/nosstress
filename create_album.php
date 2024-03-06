@@ -29,11 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data form yang disubmit
     $title = $_POST['title'];
     $description = $_POST['description'];
+    $access = $_POST['access'];
 
     // Validasi data form jika diperlukan
 
     // Simpan data album ke database
-    $sql = "INSERT INTO albums (user_id, title, description, created_at) VALUES ('$user_id', '$title', '$description', NOW())";
+    // Simpan data album ke database
+$sql = "INSERT INTO albums (user_id, title, description, created_at, access) VALUES ('$user_id', '$title', '$description', NOW(), '$access')";
 
     if (mysqli_query($conn, $sql)) {
         echo "Album berhasil dibuat!";
@@ -68,6 +70,18 @@ mysqli_close($conn);
 
             <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi:</label>
             <textarea id="description" name="description" class="mt-1 block w-full p-2 border border-gray-300 rounded"></textarea>
+
+            <label for="access" class="block text-sm font-medium text-gray-700">Akses:</label>
+            <div class="mt-1">
+                <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio" name="access" value="PUBLIC" checked>
+                    <span class="ml-2">Publik</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                    <input type="radio" class="form-radio" name="access" value="PRIVATE">
+                    <span class="ml-2">Privat</span>
+                </label>
+            </div>
 
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Buat</button>
         </form>

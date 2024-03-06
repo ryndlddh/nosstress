@@ -25,11 +25,12 @@ if (!$conn) {
 $album_id = $_POST['album_id'];
 $title = $_POST['title'];
 $description = $_POST['description'];
+$access = $_POST['access']; // Ambil nilai akses dari form
 
 // Query untuk memperbarui detail album
-$sql = "UPDATE albums SET title = ?, description = ? WHERE album_id = ?";
+$sql = "UPDATE albums SET title = ?, description = ?, access = ? WHERE album_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "ssi", $title, $description, $album_id);
+mysqli_stmt_bind_param($stmt, "sssi", $title, $description, $access, $album_id);
 
 // Eksekusi query
 if (mysqli_stmt_execute($stmt)) {

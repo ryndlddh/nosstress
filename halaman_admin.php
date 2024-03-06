@@ -22,7 +22,7 @@ if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') 
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
     <div class="container mx-auto p-4">
-        <h2 class="text-2xl font-bold text-center mb-4">User List</h2>
+        <h2 class="text-2xl font-bold text-center mb-4">Pengguna</h2>
         <?php
         // Cek apakah ada pesan dari halaman_hapus_user.php
         if (isset($_GET['pesan'])) {

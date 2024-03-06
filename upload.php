@@ -40,8 +40,10 @@ mysqli_close($conn);
 // Proses jika form telah di-submit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil nilai input dari form
+   
     $title = $_POST['title'];
     $description = $_POST['description'];
+    $access = $_POST['access']; // Ambil nilai akses dari form
 
     // Proses upload foto
     $target_dir = "uploads/"; // Direktori tempat menyimpan file
@@ -106,8 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Query untuk insert data ke dalam tabel photos
-        $sql = "INSERT INTO photos (user_id, title, description, image_path)
-                VALUES ('$user_id','$title', '$description', '$resized_file')";
+        $sql = "INSERT INTO photos (user_id, album_id, title, description, image_path, access)
+        VALUES ('$user_id', 1, '$title', '$description', '$resized_file', '$access')";
 
         if (mysqli_query($conn, $sql)) {
             echo "Data berhasil ditambahkan.";
@@ -149,14 +151,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="image_path" class="block text-sm font-medium text-gray-700">Pilih foto:</label>
             <input type="file" id="image_path" name="image_path" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+            <label for="access" class="block text-sm font-medium text-gray-700">Akses:</label>
+            <div class="mt-1">
+                <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio" name="access" value="PUBLIC" checked>
+                    <span class="ml-2">Publik</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                <input type="radio" class="form-radio" name="access" value="PRIVATE">
+                    <span class="ml-2">Privat</span>
+                </label>
+            </div>
 
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Kirim</button>
         </form>
     </div>
     <?php include 'footer.php'?>
-</body>
-</html>
-<script>
+
+    <script>
 function showConfirmation() {
     // Tampilkan notifikasi konfirmasi
     var confirmation = confirm("Apakah Anda yakin ingin logout?");
@@ -170,3 +182,5 @@ function showConfirmation() {
     }
 }
 </script>
+</body>
+</html>
