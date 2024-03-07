@@ -104,12 +104,12 @@ if ($result) {
                 echo "<div class='bg-white rounded shadow-md overflow-hidden'>";
                 echo "<div class='p-4'>";
                 echo "<div class='font-bold text-xl mb-2'>" . $row['username'] . ($row['access_level'] == 'admin' ? " <span class='text-blue-500'><i class='fa-solid fa-microchip'></i></span>" : "") . "</div>";
-                echo "<img class='w-full h-48 object-cover' src='" . $row['image_path'] . "' alt='" . $row['title'] . "'>";
+                echo "<img class='w-full h-80 object-cover' src='" . $row['image_path'] . "' alt='" . $row['title'] . "'>";
                 echo "<div class='mt-2'>";
                 echo "<p class='text-gray-700'>" . $row['title'] . "</p>";
                 echo "<p class='text-gray-500'>" . $row['description'] . "</p>";
                 echo "<br>";
-                echo "<a href='view_comments.php?photo_id=" . $row['photo_id'] . "' class='bg-gray-400 text-white px-4 py-2 rounded mr-2'>Lihat selengkapnya    <i class='fa-solid fa-arrow-right'></i></a>";
+                echo "<a href='view_comments.php?photo_id=" . $row['photo_id'] . "' class='bg-gray-400 hover:bg-black text-white px-4 py-2 rounded mr-2'>Lihat selengkapnya    <i class='fa-solid fa-arrow-right'></i></a>";
                 echo "</div>";
                 echo "<div class='mt-4'>";
                 if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']) {
