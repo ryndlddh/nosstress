@@ -27,12 +27,12 @@
     <div id="menu" class="hidden md:hidden">
         <div class="px-4 py-2 bg-blue-500 border-t border-b">
             <?php if (isset($_SESSION['access_level']) && $_SESSION['access_level'] === 'admin') : ?>
-                <a href="halaman_admin.php" class="block text-xl hover:bg-gray-300">Admin</a>
-                <a href="read_report.php" class="block text-xl hover:bg-gray-300">Keluhan</a>
+                <a href="halaman_admin.php" class="block text-xl hover:bg-blue-300">Admin</a>
+                <a href="read_report.php" class="block text-xl hover:bg-blue-300">Keluhan</a>
             <?php endif; ?>
-            <a href="album_user.php" class="block text-xl hover:bg-gray-300">Lihat Album</a>
-            <a href="upload.php" class="block text-xl hover:bg-gray-300">Upload</a>
-            <a href="create_album.php" class="block text-xl hover:bg-gray-300">Buat Album</a>
+            <a href="album_user.php" class="block text-xl hover:bg-blue-300">Lihat Album</a>
+            <a href="upload.php" class="block text-xl hover:bg-blue-300">Upload</a>
+            <a href="create_album.php" class="block text-xl hover:bg-blue-300">Buat Album</a>
         </div>
         <div class="px-4 py-2 bg-blue-500">
             <button onclick="showConfirmation()" class="bg-red-500 text-white px-4 py-2 rounded hover:text-gray-400 w-full">Logout</button>
