@@ -62,7 +62,7 @@ mysqli_close($conn);
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
 
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4" style="margin-top: 72px;">
         <h2 class="text-2xl font-bold text-center mb-4">Buat Album Baru</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Judul:</label>

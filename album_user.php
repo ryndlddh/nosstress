@@ -85,7 +85,7 @@ mysqli_close($conn);
 </head>
 <body>
     <?php include 'navbar.php'?>
-    <div class="container mx-auto">
+    <div class="container mx-auto" style="margin-top: 72px;">
         <h1 class="text-3xl font-bold mb-4">Album Gallery</h1>
         <?php foreach ($albums as $album): ?>
             <div class="album-container">

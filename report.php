@@ -71,7 +71,7 @@ mysqli_close($conn);
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4" style="margin-top: 72px;">
     <div class="bg-white rounded shadow-md overflow-hidden p-4">
         <h2 class="text-2xl font-bold mb-4">Laporkan Foto</h2>
         <?php if (isset($error_message)) : ?>

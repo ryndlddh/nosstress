@@ -48,7 +48,7 @@ mysqli_close($conn);
 </head>
 <body>
     <?php include "navbar.php" ?>
-    <div class="container mx-auto">
+    <div class="container mx-auto" style="margin-top: 72px;">
         <h1 class="text-3xl font-bold mb-4">Edit Album</h1>
         <form action="prosess_edit_album.php" method="post">
             <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">

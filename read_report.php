@@ -44,49 +44,34 @@ mysqli_close($conn);
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4" style="margin-top: 72px;">
     <div class="bg-white rounded shadow-md overflow-hidden p-4">
         <h2 class="text-2xl font-bold mb-4">Daftar Laporan</h2>
-        <table class="table-auto w-full">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2">Username</th>
-                    <th class="px-4 py-2">Judul Foto</th>
-                    <th class="px-4 py-2">Laporan</th>
-                    <th class="px-4 py-2">Tanggal Lapor</th>
-                    <th class="px-4 py-2">Lihat Komentar</th>
-                    <th class="px-4 py-2">Hapus Laporan</th> <!-- Kolom baru untuk tombol -->
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (mysqli_num_rows($result) > 0) : ?>
-                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                    <tr>
-                    <td class="border px-4 py-2"><?php echo $row['username']; ?></td>
-                    <td class="border px-4 py-2"><?php echo $row['photo_title']; ?></td>
-                    <td class="border px-4 py-2"><?php echo $row['report']; ?></td>
-                    <td class="border px-4 py-2"><?php echo $row['created_at']; ?></td>
-                    <td class="border px-4 py-2">
-                    <a href='view_comments.php?photo_id=<?php echo $row['photo_id']; ?>' class=''>Lihat Foto</a>
-                    </td>
-                    
-                    <!-- Bagian yang diperbaiki -->
-                    <td class="border px-4 py-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <?php if (mysqli_num_rows($result) > 0) : ?>
+                <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                <div class="bg-white shadow-md rounded p-4">
+                    <div class="flex justify-between items-center">
+                        <div><strong>Username:</strong> <?php echo $row['username']; ?></div>
+                        
+                    </div>
+                    <div><strong>Tanggal Lapor:</strong> <?php echo $row['created_at']; ?></div>
+                    <div><strong>Judul Foto:</strong> <?php echo $row['photo_title']; ?></div>
+                    <div><strong>Laporan:</strong> <?php echo $row['report']; ?></div>
+                    <div class="flex justify-end">
+                        <a href='view_comments.php?photo_id=<?php echo $row['photo_id']; ?>' class='bg-blue-500 text-white px-4 py-2 rounded mr-2'>Lihat Foto</a>
                         <button onclick="sshowConfirmation('<?php echo $row['report_id']; ?>')" class="bg-red-500 text-white px-4 py-2 rounded"><i class='fa-solid fa-trash'></i></button>
-                    </td>
-
-                    
-                    </tr>
-                    <?php endwhile; ?>
-                <?php else : ?>
-                    <tr>
-                        <td colspan="5" class="border px-4 py-2 text-center">Tidak ada laporan.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <div class="bg-white shadow-md rounded p-4">Tidak ada laporan.</div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
+
+
 
 <?php include 'footer.php'; ?>
 <script>

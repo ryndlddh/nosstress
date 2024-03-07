@@ -90,7 +90,7 @@ if ($result_comment && mysqli_num_rows($result_comment) > 0) {
 </head>
 <body class="bg-gray-200">
 <?php include 'navbar.php'?>
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4" style="margin-top: 72px;">
         <div class="bg-white rounded shadow-md overflow-hidden p-4">
             <h2 class="text-2xl font-bold mb-2">Edit Komentar</h2>
             <form action="edit_comment.php?comment_id=<?php echo $comment_id; ?>" method="POST" class="space-y-4">

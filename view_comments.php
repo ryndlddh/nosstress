@@ -107,7 +107,7 @@ mysqli_close($conn);
 <body class="bg-gray-200">
 <?php include'navbar.php';?>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4" style="margin-top: 72px;">
     <!-- Photo Details Section -->
     <div class="bg-white rounded shadow-md overflow-hidden p-4">
         <!-- Tombol Ripot -->

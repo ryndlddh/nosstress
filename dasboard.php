@@ -55,7 +55,7 @@ mysqli_close($conn);
   
  <div class="success-message"><?php echo $success_message; ?></div>
 <?php endif; ?>
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4" style="margin-top: 72px;">
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <?php
 // Koneksi ke database
@@ -162,3 +162,4 @@ function sshowConfirmation(button, photoId) {
 }
 </script>
 </body>
+

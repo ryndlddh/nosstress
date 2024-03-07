@@ -66,7 +66,7 @@ mysqli_close($conn);
 </head>
 <body class="bg-gray-200">
 <?php include 'navbar.php'; ?>
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4" style="margin-top: 72px;">
         <h2 class="text-2xl font-bold text-center mb-4">Edit User</h2>
         <form method="post" onsubmit="return validateForm()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?user_id=$user_id"; ?>" class="space-y-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
